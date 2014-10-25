@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/button_background"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/text_title_style"
+        android:gravity="left"
+        android:id="@+id/setup1Textview"
+        android:text="1.欢迎使用老帅虎手机防盗" />
+
+    <View style="@style/view_divide_line_style" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="老帅虎功能:" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_rating_star_on_pressed_holo_dark" />
+
+        <TextView
+            style="@style/text_content_style"
+            android:text="sim卡变更报警" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_rating_star_on_pressed_holo_dark" />
+
+        <TextView
+            style="@style/text_content_style"
+            android:text="gps追踪" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_rating_star_on_pressed_holo_dark" />
+
+        <TextView
+            style="@style/text_content_style"
+            android:text="远程销毁数据" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_rating_star_on_pressed_holo_dark" />
+
+        <TextView
+            style="@style/text_content_style"
+            android:text="远程锁屏" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <ImageView
+            android:id="@+id/Setup1ImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="130dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/tiger" />
+
+        <Button
+            android:id="@+id/Setup1next"
+            style="@style/button_next_style"
+            android:onClick="next" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/Setup1next"
+            android:gravity="bottom"
+            android:orientation="horizontal" >
+
+            <ImageView style="@style/image_start_online_style" />
+
+            <ImageView style="@style/image_start_offline_style" />
+
+            <ImageView style="@style/image_start_offline_style" />
+
+            <ImageView style="@style/image_start_offline_style" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

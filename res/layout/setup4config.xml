@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/button_background"
+    android:orientation="vertical" >
+
+    <TextView 
+        android:text="4.恭喜你设置完成"
+        android:gravity="left"
+        style="@style/text_title_style"/>
+
+    <View style="@style/view_divide_line_style"/>
+             <TextView 
+        style="@style/text_content_style"
+        android:text="强烈建议你开启防盗保护"/>
+    
+    <LinearLayout 
+           android:layout_width="wrap_content"	
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <CheckBox android:id="@+id/cb_setup4_start_protect"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:text=" 防盗保护没有开启"
+        android:background="#979540"
+        />
+  
+    
+    
+      </LinearLayout>
+    
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/th_kyodai" />
+
+        <Button
+            style="@style/button_pre_style"
+            android:onClick="pre" />
+
+        <Button
+            android:id="@+id/button1"
+            style="@style/button_next_style"
+            android:onClick="next"
+            android:text="完成" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/imageView1"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
+
+            <ImageView style="@style/image_start_offline_style" />
+
+            <ImageView style="@style/image_start_offline_style" />
+
+            <ImageView style="@style/image_start_offline_style" />
+
+            <ImageView style="@style/image_start_online_style" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

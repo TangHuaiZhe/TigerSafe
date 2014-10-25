@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/title_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:background="@drawable/title_background"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="南汇老帅虎手机卫士"
+            android:textColor="#FFF8F8F8"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/gv_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dip"
+        android:horizontalSpacing="8dip"
+        android:numColumns="3"
+        android:background="@drawable/title_background"
+        android:verticalSpacing="10dip" >
+    </GridView>
+
+</LinearLayout>

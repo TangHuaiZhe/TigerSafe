@@ -1,0 +1,83 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    
+    
+    
+    <style name="text_title_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+    
+
+    <style name="view_divide_line_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:background">@drawable/devide_line</item>
+    </style>
+    
+
+    <style name="text_content_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:layout_marginTop">5dip</item>
+    </style>
+
+    <style name="image_start_online_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dip</item>
+        <item name="android:src">@android:drawable/presence_online</item>
+    </style>
+    
+    <style name="image_start_offline_style" parent="image_start_online_style">
+        <item name="android:src">@android:drawable/presence_invisible</item>
+    </style>
+    
+
+    <style name="button_next_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:text">下一步</item>
+        <item name="android:drawableRight">@android:drawable/ic_media_next</item>
+    </style>
+
+    <style name="button_pre_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:text">上一步</item>
+        <item name="android:drawableLeft">@android:drawable/ic_media_previous</item>
+    </style>
+    
+    
+    <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">  
+    <item name="android:button">@drawable/check_selector</item>  
+	</style>  
+
+    
+</resources>
