@@ -33,6 +33,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -51,7 +52,7 @@ public class Aty_2_AppManage extends Activity implements OnItemClickListener,
 	private static PopupWindow popupWindow;
 	private LinearLayout llLayout;
 	private LinearLayout llLayout_jiazai;
-	private TextView Click_textView;
+	private Button Click_textView;
 
 	private Handler handler = new Handler() {
 
@@ -73,10 +74,11 @@ public class Aty_2_AppManage extends Activity implements OnItemClickListener,
 		setContentView(R.layout.app_manager);
 		lv_AppInfos = (ListView) findViewById(R.id.lv_app_manager);
 		llLayout_jiazai = (LinearLayout) findViewById(R.id.ll_app_manager_loading);
-		Click_textView = (TextView) findViewById(R.id.tv_app_manager_title);
+		Click_textView = (Button) findViewById(R.id.tv_app_manager_title);
 		Click_textView.setOnClickListener(this);
 		lv_AppInfos.setOnItemClickListener(this);
 		lv_AppInfos.setOnScrollListener(this);
+		Toast.makeText(this, "点击顶部按钮切换至用户程序", Toast.LENGTH_SHORT).show();
 
 		new Thread() {
 			@Override
