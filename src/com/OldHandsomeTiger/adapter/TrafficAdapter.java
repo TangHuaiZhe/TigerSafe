@@ -22,6 +22,11 @@ import com.OldHandsomeTiger.Aty.Aty_4_TrafficView;
 import com.OldHandsomeTiger.tigersafe.R;
 import com.OldHandsomeTiger.util.ImageUtil;
 import com.OldHandsomeTiger.util.TextFormater;
+/**
+ * 流量信息Adapter
+ * @author tang
+ *
+ */
 
 public class TrafficAdapter extends BaseAdapter {
 	List<ResolveInfo> resovleInfos;
@@ -35,6 +40,9 @@ public class TrafficAdapter extends BaseAdapter {
 		Intent intent = new Intent();
 		intent.setAction("android.intent.action.MAIN");
 		intent.addCategory("android.intent.category.LAUNCHER");
+		
+		//过滤intent，只含有上述定义的intent才可以，这样也可能导致一些APP找不到……
+		//后续试验之
 		resovleInfos = pm.queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
 
@@ -81,6 +89,7 @@ public class TrafficAdapter extends BaseAdapter {
 		try {
 			PackageInfo packinfo = pm.getPackageInfo(packname, 0);
 			int uid = packinfo.applicationInfo.uid;
+//			关键类TrafficStats，关键方法getUidRxBytes(uid)
 			holder.tv_rx.setText(TextFormater.getDataSize(TrafficStats
 					.getUidRxBytes(uid)));
 			holder.tv_tx.setText(TextFormater.getDataSize(TrafficStats

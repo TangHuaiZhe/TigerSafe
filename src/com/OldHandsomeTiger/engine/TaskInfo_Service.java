@@ -25,22 +25,28 @@ public class TaskInfo_Service {
 	private Context context;
 	private PackageManager packageManager;// 通过包名获得ApplicationInfo的必由之路……
 	private ApplicationInfo appInfo;// 可以得到很多信息
-
+	private  List<RunningAppProcessInfo> runningAppProcessInfos;
+	
+/**
+ * 通过packageManager和activityManager
+ * 获取当前运行的任务信息
+ * @param context
+ */
 	public TaskInfo_Service(Context context) {
 		this.context = context;
 		packageManager = context.getPackageManager();
 		activityManager = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
+		runningAppProcessInfos=activityManager.getRunningAppProcesses();
 	}
 
-	public List<TaskInfo> getAllTaskInfos(
-			List<RunningAppProcessInfo> runningAppProcessInfos) {
+	public List<TaskInfo> getAllTaskInfos() {
 
 		taskInfos = new ArrayList<TaskInfo>();
 		for (RunningAppProcessInfo Info : runningAppProcessInfos) {
-
 			Log.i(TAG, "进程名：" + Info.processName);
 			taskInfo = new TaskInfo();
+			//获得进程的Pid号
 			int id = Info.pid;
 			taskInfo.setPid(id);
 
@@ -66,14 +72,13 @@ public class TaskInfo_Service {
 
 				String appName = (String) appInfo.loadLabel(packageManager);
 				taskInfo.setAppname(appName);
-
+//				关键方法，activityManager的方法获取某个进程的内存使用信息，参数为Pid号
 				android.os.Debug.MemoryInfo[] memoryInfo = activityManager
 						.getProcessMemoryInfo(new int[] { id });
 				int AppMemoryInfo = memoryInfo[0].getTotalPrivateDirty();// 返回当前应用程序占用的内存
 																			// 单位KB
 				String MemoryInfo = TextFormater.getKBDataSize(AppMemoryInfo);
 				taskInfo.setMemorysize(MemoryInfo);
-
 				taskInfos.add(taskInfo);
 				taskInfo = null;
 			} catch (NameNotFoundException e) {
@@ -97,7 +102,6 @@ public class TaskInfo_Service {
 				taskInfos.add(taskInfo);
 				taskInfo = null;
 			}
-
 		}
 
 		return taskInfos;

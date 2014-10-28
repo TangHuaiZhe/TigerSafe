@@ -13,14 +13,21 @@ import com.OldHandsomeTiger.domain.ContactInfo;
 public class ContactInfo_Service {
 	
 	private Context context;
-	
+	/**
+	 * 获取所有联系人服务类
+	 * @param context
+	 */
 	public ContactInfo_Service(Context context) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
 	}
 	
 
-	//获得手机里面所有的联系人
+	/**
+	 * 获得手机里面所有的联系人。
+	 * 通过ContentResolver查询联系人的uri，获取号码和姓名
+	 * @return List<ContactInfo> 
+	 */
 	public List<ContactInfo> getContacts(){
 		List<ContactInfo> contactInfos = new ArrayList<ContactInfo>();
 		ContentResolver cr = context.getContentResolver();

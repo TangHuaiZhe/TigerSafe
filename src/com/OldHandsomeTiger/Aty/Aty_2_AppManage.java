@@ -80,17 +80,16 @@ public class Aty_2_AppManage extends Activity implements OnItemClickListener,
 		lv_AppInfos.setOnScrollListener(this);
 		Toast.makeText(this, "点击顶部按钮切换至用户程序", Toast.LENGTH_SHORT).show();
 
+		// 获取所有的应用程序也是耗时操作啊……
 		new Thread() {
 			@Override
 			public void run() {
 				super.run();
-				// 获取所有的应用程序也是耗时操作啊……
 				appInfos = new AppInfo_Service(Aty_2_AppManage.this)
 						.getAppInfos();
 				adapter = new AppInfoAdapter(Aty_2_AppManage.this, appInfos);
 				handler.sendEmptyMessage(REFRESH_LISTVIEW);
 			}
-
 		}.start();
 
 	}
@@ -271,7 +270,6 @@ public class Aty_2_AppManage extends Activity implements OnItemClickListener,
 			// Log.i(TAG, "回调了1");
 			// appInfos = new AppInfo_Service(this).getAppInfos();
 			// adapter.notifyDataSetChanged();
-			// Log.i(TAG, "回调了2");
 			lv_AppInfos.setVisibility(View.INVISIBLE);
 			llLayout_jiazai.setVisibility(View.VISIBLE);
 			
@@ -288,7 +286,6 @@ public class Aty_2_AppManage extends Activity implements OnItemClickListener,
 						handler.sendEmptyMessage(REFRESH_LISTVIEW);
 					} else {
 						Log.i(TAG, "用户程序列表更新");
-					
 						appInfos = new AppInfo_Service(Aty_2_AppManage.this)
 								.getAppInfos();
 						userAppInfos=getUserApps(appInfos);
@@ -314,6 +311,7 @@ public class Aty_2_AppManage extends Activity implements OnItemClickListener,
 	private List<AppInfo> getUserApps(List<AppInfo> appinfos) {
 		List<AppInfo> userAppinfos = new ArrayList<AppInfo>();
 		for (AppInfo appinfo : appinfos) {
+			//判断是否是系统APP
 			if (!appinfo.isSystemApp()) {
 				userAppinfos.add(appinfo);
 			}

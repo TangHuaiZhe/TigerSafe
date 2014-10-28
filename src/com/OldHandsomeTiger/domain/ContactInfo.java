@@ -1,5 +1,10 @@
 ﻿package com.OldHandsomeTiger.domain;
 
+
+/**
+ * 联系人信息类
+ * @author tang
+ */
 public class ContactInfo {
 
 	private String name;

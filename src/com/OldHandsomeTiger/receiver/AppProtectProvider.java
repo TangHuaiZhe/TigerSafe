@@ -7,7 +7,12 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
-
+/**
+ * 自定义一个ContentProvider
+ * 在Service_WatchDog中监听 锁定APP的数据库 的改变事件
+ * @author tang
+ *	
+ */
 public class AppProtectProvider extends ContentProvider {
 
 	private Dao_AppLock dao_AppLock;

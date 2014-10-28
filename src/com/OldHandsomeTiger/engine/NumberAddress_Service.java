@@ -4,7 +4,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.OldHandsomeTiger.db.dao.AddressDao;
-
+/**
+ * 查询号码归属地  业务类
+ * @author tang
+ */
 public class NumberAddress_Service {
 
 	/**

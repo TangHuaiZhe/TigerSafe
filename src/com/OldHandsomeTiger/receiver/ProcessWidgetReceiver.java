@@ -6,15 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.OldHandsomeTiger.service.Service_UpdateWidget;
-
+/**
+ * 杀死进程的小部件
+ * @author tang
+ *
+ */
 public class ProcessWidgetReceiver extends AppWidgetProvider {
 	
 	Intent intent;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// TODO 自动生成的方法存根
-		
 		super.onReceive(context, intent);
 	}
 

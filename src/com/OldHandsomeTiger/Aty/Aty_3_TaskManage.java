@@ -60,7 +60,6 @@ public class Aty_3_TaskManage extends Activity implements OnClickListener,
 				String totalMem= TeleInfo.getTotalMemory(Aty_3_TaskManage.this);
 				tv_avail_memory.setText("可用内存：" + getAvailableMemory()+"/"+totalMem);
 				ll_task_manager_loading.setVisibility(View.GONE);
-
 				lv_task_manager.setAdapter(adapter);
 				systemTaskInfos = adapter.getSystemTaskInfo();
 				userTaskInfos = adapter.getUserTaskInfo();
@@ -113,19 +112,21 @@ public class Aty_3_TaskManage extends Activity implements OnClickListener,
 		return TextFormater.getDataSize(size);
 	}
 
+	/**
+	 * 新开线程，获取List<TaskInfo> taskInfos，发送请求UI更新的Handler
+	 */
 	private void fillData() {
 		new Thread() {
 			public void run() {
 				taskInfo_Service = new TaskInfo_Service(Aty_3_TaskManage.this);
+			
+				
 				taskInfos = new ArrayList<TaskInfo>();
+				taskInfos = taskInfo_Service.getAllTaskInfos();
 				activityManager = (ActivityManager) Aty_3_TaskManage.this
 						.getSystemService(Context.ACTIVITY_SERVICE);
-				taskInfos = taskInfo_Service.getAllTaskInfos(activityManager
-						.getRunningAppProcesses());
 				adapter = new TaskManagerAdapter(Aty_3_TaskManage.this,
 						taskInfos);
-			
-			
 				
 				handler.sendEmptyMessage(101);
 			}
@@ -168,7 +169,10 @@ public class Aty_3_TaskManage extends Activity implements OnClickListener,
 		}
 
 	}
-
+/*
+ * 杀死选择的进程
+ * 模拟器上有一定的问题，显示杀死N个进程，释放0Byte……
+ */
 	private void killProcess() {
 		int a = 0;
 		int memory = 0;

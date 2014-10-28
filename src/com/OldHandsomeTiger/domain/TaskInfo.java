@@ -1,7 +1,11 @@
 ﻿package com.OldHandsomeTiger.domain;
 
 import android.graphics.drawable.Drawable;
-
+/**
+ * 任务信息服务类
+ * @author tang
+ *
+ */
 public class TaskInfo {
 
 	private String appname;

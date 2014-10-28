@@ -45,8 +45,8 @@ public class TeleInfo {
 	}
 
 	/**
-	 * 获取手机内存大小
-	 * 
+	 * 获取手机内存大小，
+	 * 通过读取/proc/meminfo下的信息实现
 	 * @return
 	 */
 	public static String getTotalMemory(Context context) {
@@ -65,10 +65,8 @@ public class TeleInfo {
 			for (String num : arrayOfString) {
 				Log.i(str2, num + "\t");
 			}
-
 			initial_memory = Integer.valueOf(arrayOfString[1]).intValue() * 1024;// 获得系统总内存，单位是KB，乘以1024转换为Byte
 			localBufferedReader.close();
-
 		} catch (IOException e) {
 		}
 		return Formatter.formatFileSize(context, initial_memory);// Byte转换为KB或者MB，内存大小规格化

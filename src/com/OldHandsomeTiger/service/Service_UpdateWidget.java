@@ -16,6 +16,11 @@ import android.graphics.Color;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
+/**
+ * 更新桌面进程管理部件的服务，2秒钟更新一次显示的进程信息
+ * @author tang
+ *	
+ */
 public class Service_UpdateWidget extends Service {
 
 	private Timer timer;

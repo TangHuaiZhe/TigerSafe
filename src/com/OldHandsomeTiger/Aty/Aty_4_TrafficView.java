@@ -16,9 +16,13 @@ import android.widget.TextView;
 import com.OldHandsomeTiger.adapter.TrafficAdapter;
 import com.OldHandsomeTiger.tigersafe.R;
 import com.OldHandsomeTiger.util.TextFormater;
-
+/**
+ * 流量信息界面
+ * 每次重启数据清零，数据库还没有加进去
+ * @author tang
+ *	@since 2014/10/28
+ */
 public class Aty_4_TrafficView   extends   Activity{
-
 	private TextView tv_mobile_total;
 	private TextView tv_wifi_total;
 	private ListView lv_content;
@@ -26,7 +30,6 @@ public class Aty_4_TrafficView   extends   Activity{
 	private String wifitraffic;
 	private PackageManager pm;
 	private  TrafficAdapter adapter;
-	
 	private Timer timer;
 	private TimerTask task;
 	
@@ -62,8 +65,11 @@ public class Aty_4_TrafficView   extends   Activity{
 		
 		
 	}
-	
+	/**
+	 * 设置页面上的总体流量信息
+	 */
 	private void setTotalDataInfo() {
+		//关键类和关键方法android的net包下面TrafficStats类
 		long mobilerx = TrafficStats.getMobileRxBytes();
 		long mobiletx = TrafficStats.getMobileTxBytes();
 		

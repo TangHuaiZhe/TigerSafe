@@ -1,7 +1,11 @@
 ﻿package com.OldHandsomeTiger.domain;
 
 import android.graphics.drawable.Drawable;
-
+/**
+ * APP的信息服务类
+ * @author tang
+ *
+ */
 public class AppInfo {
 
 	private String AppName;

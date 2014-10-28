@@ -4,6 +4,8 @@
     android:versionCode="2"
     android:versionName="2.0" >
 
+    
+<!-- 测试必须语句 -->
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="com.OldHandsomeTiger.tigersafe" />
@@ -35,6 +37,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppBaseTheme" >
+        
+        <!-- 测试必须语句 -->
         <uses-library android:name="android.test.runner" >
         </uses-library>
 

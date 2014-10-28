@@ -115,9 +115,11 @@ public class Aty_7_2_LockApp extends Activity implements OnItemClickListener, On
 		AppInfo appInfo = appinfos.get(position);
 		ImageView imageView = (ImageView) view
 				.findViewById(R.id.iv_app_lock_status);
+		
 		TranslateAnimation translateAnimation=new TranslateAnimation(0f,80f,0f,0f);
 		translateAnimation.setDuration(500);
 		view.startAnimation(translateAnimation);
+		
 		if(appInfo.isLocked()){
 			appInfo.setLocked(false);
 			imageView.setImageResource(R.drawable.unlock);
@@ -129,6 +131,7 @@ public class Aty_7_2_LockApp extends Activity implements OnItemClickListener, On
 			imageView.setImageResource(R.drawable.lock);
 			String LockedPackname = appInfo.getAppPackage();
 			//			dao_AppLock.add(LockedPackname);
+			//操作数据库
 			ContentValues values=new ContentValues();
 			values.put("packname", LockedPackname);
 			getContentResolver().insert(Uri.parse(INSERT_URI), values);

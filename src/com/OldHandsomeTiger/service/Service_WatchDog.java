@@ -62,10 +62,10 @@ public class Service_WatchDog extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
+//		注册ContentProvider的监听器，监听这个uri下面的数据库数据是否发生改变
 		getContentResolver().registerContentObserver(Uri.parse(uriString),
 				true, new myContentObserver(new Handler()));
-
+//		用来得到是否在锁屏状态的类，比较奇葩
 		final KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 		
 		mybinder = new Mybinder();
@@ -73,9 +73,9 @@ public class Service_WatchDog extends Service {
 		appInfos = new ArrayList<AppInfo>();
 		StopAppProtect_PackNames = new ArrayList<String>();
 		lockappintent = new Intent(this, Aty_7_2_LockScreen.class);
-		// 服务是不存在任务栈的 要在服务里面开启activity的话 必须添加这样一个flag
+//		 服务是不存在任务栈的 要在服务里面开启activity的话 必须添加这样一个flag
 		lockappintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		// 得到数据库中，所有被锁定的APP的包名
+//		 得到数据库中，所有被锁定的APP的包名
 		Dao_AppLock = new Dao_AppLock(this);
 		LockedPackNames = Dao_AppLock.getAllApps();
 
@@ -84,7 +84,7 @@ public class Service_WatchDog extends Service {
 		new Thread() {
 			public void run() {
 				while (flag) {
-					
+					//判断是否在锁屏状态的关键方法
 					if(keyguardManager.inKeyguardRestrictedInputMode()){
 						StopAppProtect_PackNames.clear();
 						Log.i(TAG, "进入锁屏……清空忽略名单");

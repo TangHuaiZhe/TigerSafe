@@ -8,7 +8,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.OldHandsomeTiger.db.DB_LockAppInfo;
-
+/**
+ * 锁定的APP，数据库类
+ * @author tang
+ *
+ */
 public class Dao_AppLock {
 	private Context context;
 	private DB_LockAppInfo dbHelper;

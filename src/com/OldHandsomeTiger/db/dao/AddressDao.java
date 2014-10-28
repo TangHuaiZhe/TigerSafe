@@ -2,6 +2,11 @@
 
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * 查询号码数据库类
+ * @author tang
+ *
+ */
 public class AddressDao {
 
 	
