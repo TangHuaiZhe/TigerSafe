@@ -49,17 +49,16 @@ public class AppInfoAdapter extends BaseAdapter {
 
 		View view;
 		if (convertView == null) {
-//			Log.i(TAG,"通过资源文件 创建view对象");
+			Log.i(TAG,"通过资源文件 创建view对象");
 			view = View.inflate(context, R.layout.app_item, null);
 
 		} else {
-//			Log.i(TAG,"使用历史缓存view对象");
+			Log.i(TAG,"使用历史缓存view对象");
 			view = convertView;
 		}
 		
 		imageView = (ImageView) view.findViewById(R.id.iv_app_icon);
 		textView = (TextView) view.findViewById(R.id.tv_app_name);
-
 		imageView.setImageDrawable(appInfos.get(position).getAppIcon());
 		textView.setText(appInfos.get(position).getAppName());
 

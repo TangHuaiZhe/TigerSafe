@@ -31,4 +31,6 @@ public class Config {
 	public static final String KEY_KILL_PROCESS = "killprocess";
 	public static final String KEY_PACKAGENAME = "packageName";
 	public static final String KEY_APP_NAME = "AppName";
+	
+	public static final String urlString="http://www.tuling123.com/openapi/api";
 }

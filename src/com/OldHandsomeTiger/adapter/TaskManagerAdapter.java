@@ -102,7 +102,6 @@ public class TaskManagerAdapter extends BaseAdapter {
 			tv_app_memory_size = (TextView) view
 					.findViewById(R.id.tv_app_memory_size);
 			iv_app_icon = (ImageView) view.findViewById(R.id.iv_app_icon);
-
 			TaskInfo taskInfo = userTaskInfo.get(currentPositon);
 			tv_app_name.setText(taskInfo.getAppname());
 			tv_app_memory_size.setText(taskInfo.getMemorysize());

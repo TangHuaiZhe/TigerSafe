@@ -18,11 +18,11 @@ public class MainAdapter extends BaseAdapter {
 	private static TextView tv_name;
 	private SharedPreferences sp;
 	private static String[] names = { "手机防盗", "通讯卫士", "软件管理", "任务管理", "流量管理",
-			"手机杀毒", "系统优化", "高级工具", "设置中心","硬件信息" };
+			"手机杀毒", "系统优化", "高级工具", "设置中心","硬件信息","图灵机器人"};
 	private static int[] icons = { R.drawable.icon1, R.drawable.icon2,
 			R.drawable.icon3, R.drawable.icon4, R.drawable.icon5,
 			R.drawable.icon6, R.drawable.icon7, R.drawable.icon8,
-			R.drawable.icon9 ,R.drawable.icon10};
+			R.drawable.icon9 ,R.drawable.icon10,R.drawable.tuling};
 
 	public MainAdapter(Context context) {
 		super();

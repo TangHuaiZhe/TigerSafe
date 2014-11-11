@@ -30,7 +30,6 @@ public class Aty_0_Config2 extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.setup2config);
 		imv_bindSim = (ImageView) findViewById(R.id.iv_bind_sim);
-
 		tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		sp = getSharedPreferences(Config.KEY_CONFIG, Context.MODE_PRIVATE);
 		sim_serial = sp.getString(com.OldHandsomeTiger.util.Config.KEY_SIM_SERIAL, "");

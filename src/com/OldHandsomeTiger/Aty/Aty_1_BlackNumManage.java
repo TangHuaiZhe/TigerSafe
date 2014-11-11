@@ -91,6 +91,10 @@ public class Aty_1_BlackNumManage extends Activity {
 	
 	}
 	
+	
+	/**
+	 * ListView的上下文菜单注册之后在这里被定义
+	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 	                                ContextMenuInfo menuInfo) {
@@ -99,7 +103,9 @@ public class Aty_1_BlackNumManage extends Activity {
 	  inflater.inflate(R.menu.context_menu, menu);
 	}
 	
-	
+/**
+ * ListView上下文菜单的点击事件
+ */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();

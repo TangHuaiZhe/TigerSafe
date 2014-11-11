@@ -80,7 +80,7 @@ public class Service_WatchDog extends Service {
 		LockedPackNames = Dao_AppLock.getAllApps();
 
 		manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-
+//		服务中启动线程处理耗时操作，因为服务与应用位于同一进程中……
 		new Thread() {
 			public void run() {
 				while (flag) {
@@ -98,7 +98,7 @@ public class Service_WatchDog extends Service {
 					RunningTaskInfo RunningTaskInfo = RunningTaskInfos.get(0);
 					String packageName = RunningTaskInfo.topActivity
 							.getPackageName();
-					Log.i(TAG, "当前运行的APP" + packageName);
+//					Log.i(TAG, "当前运行的APP" + packageName);
 					// 判断是否在被锁定名单内
 					if (LockedPackNames.contains(packageName)) {
 						// 判断是否在忽略名单内

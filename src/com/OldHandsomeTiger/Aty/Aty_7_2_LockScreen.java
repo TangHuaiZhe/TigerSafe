@@ -1,15 +1,5 @@
 ﻿package com.OldHandsomeTiger.Aty;
-/*
- * 由看门狗服务开启此activity
- * 用户屏蔽被锁定程序的界面
- * 如果密码输入正确，不再显示此界面，通过绑定服务(bindService)，调用服务的方法实现
- * 
- * 想过直接finish掉这个Acitivity  ，但是由于看门狗服务（while true）的存在，仍然会调用起这个Activity
- * 所以只能通过这个Activity去和看门狗服务交互，才能避免这个情况的发生
- * 而如果想和一个服务交互，只能是通过bindservice的方式
- * 所以才会搞的这么复杂……
- * 
- */
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -35,6 +25,18 @@ import com.OldHandsomeTiger.service.Service_WatchDog;
 import com.OldHandsomeTiger.tigersafe.R;
 import com.OldHandsomeTiger.util.SecurityUtil;
 
+
+/**
+ * 由看门狗服务开启此activity
+ * 用户屏蔽被锁定程序的界面
+ * 如果密码输入正确，不再显示此界面，通过绑定服务(bindService)，调用服务的方法实现
+ * 
+ * 想过直接finish掉这个Acitivity  ，但是由于看门狗服务（while true）的存在，仍然会调用起这个Activity
+ * 所以只能通过这个Activity去和看门狗服务交互，才能避免这个情况的发生
+ * 而如果想和一个服务交互，只能是通过bindservice的方式
+ * 所以才会搞的这么复杂……
+ * 
+ */
 public class Aty_7_2_LockScreen extends Activity {
 	public static final String TAG = "Aty_7_2_LockScreen";
 	private ImageView iv_app_lock_pwd_icon;

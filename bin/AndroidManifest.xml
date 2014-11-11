@@ -139,6 +139,11 @@
             android:name="com.OldHandsomeTiger.Aty.Aty_4_TrafficView"
             android:label="流量信息">
         </activity>
+        
+       <activity
+            android:name="com.OldHandsomeTiger.Aty.Aty_9_tuLing"
+            android:label="流量信息">
+        </activity>
             
             
 
