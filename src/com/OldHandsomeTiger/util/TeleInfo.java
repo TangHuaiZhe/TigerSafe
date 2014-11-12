@@ -21,13 +21,24 @@ public class TeleInfo {
 		PhoneInfos = new ArrayList<String>();
 		TelephonyManager tm = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		String TeleBrand = "手机品牌："+android.os.Build.BRAND;// 手机品牌
-		String TeleModel = "手机型号："+android.os.Build.MODEL; // 手机型号
-		String TeleSDK = "SDK："+android.os.Build.VERSION.SDK_INT; // 手机型号
-		String TeleDeviceID = "设备ID："+tm.getDeviceId();
-		String TeleImsi ="IMSI：" +tm.getSubscriberId();// the unique subscriber ID
-		String TeleNumer = "手机号码："+tm.getLine1Number(); // 手机号码
-		String TeleserviceName ="运营商："+ tm.getSimOperatorName(); // 运营商
+		String TeleBrand = "手机品牌：" + android.os.Build.BRAND;// 手机品牌
+		String TeleModel = "手机型号：" + android.os.Build.MODEL; // 手机型号
+		String TeleSDK = "SDK：" + android.os.Build.VERSION.SDK_INT; // 手机型号
+		String TeleDeviceID = "设备ID：" + tm.getDeviceId();
+		String TeleImsi = "IMSI：" + tm.getSubscriberId();// the unique
+															// subscriber ID
+		String TeleNumer = "手机号码：" + tm.getLine1Number(); // 手机号码
+		String TeleserviceName = "运营商：" + tm.getSimOperatorName(); // 运营商
+
+		/** 硬件信息 */
+		String cpuName = "CPU型号:" + GetHardwareInfo.getCpuName();
+		int cpuCount = GetHardwareInfo.getNumCores();
+		String cpuCountStr = "CPU核心数:" + String.valueOf(cpuCount);
+		String minFreq = "CPU频率:" + GetHardwareInfo.getMinCpuFreq();
+		long RAM = GetHardwareInfo.getRamMemory();
+		String RAMStr = "内存大小:" + String.valueOf(RAM)+"MB";
+		String size = "屏幕分辨率:" + GetHardwareInfo.getScreenResolution(context);
+
 		// tvPhoneInfo.setText("品牌: " + mtyb + "\n" + "型号: " + mtype + "\n" +
 		// "版本: Android " + android.os.Build.VERSION.RELEASE + "\n" + "IMEI: " +
 		// imei
@@ -40,13 +51,20 @@ public class TeleInfo {
 		PhoneInfos.add(TeleImsi);
 		PhoneInfos.add(TeleNumer);
 		PhoneInfos.add(TeleserviceName);
+
+		PhoneInfos.add(cpuName);
+		PhoneInfos.add(cpuCountStr);
+		PhoneInfos.add(minFreq);
+		PhoneInfos.add(RAMStr);
+		PhoneInfos.add(size);
+
 		return PhoneInfos;
 
 	}
 
 	/**
-	 * 获取手机内存大小，
-	 * 通过读取/proc/meminfo下的信息实现
+	 * 获取手机内存大小， 通过读取/proc/meminfo下的信息实现
+	 * 
 	 * @return
 	 */
 	public static String getTotalMemory(Context context) {

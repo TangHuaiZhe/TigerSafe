@@ -1,6 +1,5 @@
 ﻿package com.OldHandsomeTiger.Aty;
 
-import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
@@ -13,13 +12,14 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -96,6 +96,27 @@ public class Aty_Entry extends Activity {
 		AlphaAnimation aa = new AlphaAnimation(0.0f, 1.0f);
 		aa.setDuration(2000);
 		first.startAnimation(aa);
+		aa.setAnimationListener(new AnimationListener() {
+			
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// TODO 自动生成的方法存根
+				loadMain();
+				finish();
+			}
+		});
 		// 新线程判断是否需要自动更新
 		new Thread() {
 			public void run() {
@@ -104,24 +125,23 @@ public class Aty_Entry extends Activity {
 					if (isNeedUPdate()) {
 						handler.sendEmptyMessage(0x123);
 					} else {
-						try {
-							sleep(500);
-						} catch (InterruptedException e) {
-							// TODO 自动生成的 catch 块
-							e.printStackTrace();
-						}
-						loadMain();
-						finish();
+//						try {
+//							sleep(5000);
+//						} catch (InterruptedException e) {
+//							// TODO 自动生成的 catch 块
+//							e.printStackTrace();
+//						}
+//						loadMain();
+//						finish();
 
 					}
 				} catch (NameNotFoundException e) {
-					loadMain();
-					finish();
 					e.printStackTrace();
+					
 				} catch (IOException e) {
 					e.printStackTrace();
-					loadMain();
-					finish();
+//					loadMain();
+//					finish();
 				}
 			}
 		}.start();
@@ -147,8 +167,6 @@ public class Aty_Entry extends Activity {
 		intent.setClass(Aty_Entry.this, Aty_MainUI.class);
 		startActivity(intent);
 	}
-
-
 
 	private String getVersionName() throws NameNotFoundException {
 		PackageManager packageManager = getPackageManager();
