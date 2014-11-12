@@ -33,4 +33,5 @@ public class Config {
 	public static final String KEY_APP_NAME = "AppName";
 	
 	public static final String urlString="http://www.tuling123.com/openapi/api";
+	public static final String KEY_AUTOREAD = "auto_read";
 }

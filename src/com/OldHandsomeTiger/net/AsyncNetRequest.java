@@ -16,7 +16,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
-
+/**
+ * 异步请求类，通过GetDataListener接口与其他类通信，用于图灵机器人模块
+ * @author tang
+ *
+ */
 public class AsyncNetRequest   extends AsyncTask<String, Void, String>{
 
 
@@ -38,7 +42,7 @@ public class AsyncNetRequest   extends AsyncTask<String, Void, String>{
 	@Override
 	protected String doInBackground(String... params) {
 		try {
-		System.out.println("请求的url"+url);
+//		System.out.println("请求的url"+url);
 		httpClient=new DefaultHttpClient();
 		httpGet=new HttpGet(url);
 //		httpGet=new HttpGet(URLEncoder.encode(url,"UTF-8"));
@@ -53,7 +57,7 @@ public class AsyncNetRequest   extends AsyncTask<String, Void, String>{
 			sbBuilder.append(line);
 			line=null;
 		}
-		System.out.println("异步任务输出"+sbBuilder);
+//		System.out.println("异步任务输出"+sbBuilder);
 		is.close();
 		bfw.close();
 		} catch (ClientProtocolException e) {

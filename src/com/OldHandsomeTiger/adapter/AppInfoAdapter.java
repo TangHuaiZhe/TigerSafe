@@ -13,7 +13,11 @@ import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+/**
+ * APP信息Adapter
+ * @author tang
+ *
+ */
 public class AppInfoAdapter extends BaseAdapter {
 	private static final String TAG = "AppInfoAdapter";
 	private Context context;
@@ -49,11 +53,11 @@ public class AppInfoAdapter extends BaseAdapter {
 
 		View view;
 		if (convertView == null) {
-			Log.i(TAG,"通过资源文件 创建view对象");
+//			Log.i(TAG,"通过资源文件 创建view对象");
 			view = View.inflate(context, R.layout.app_item, null);
 
 		} else {
-			Log.i(TAG,"使用历史缓存view对象");
+//			Log.i(TAG,"使用历史缓存view对象");
 			view = convertView;
 		}
 		
