@@ -11,11 +11,11 @@ public class TestNet extends AndroidTestCase {
 	
 	public void TestAsyncNet(){
 		
-		String url=Config.urlString+"?"+"key=b24230c7a31a7b9b7e80822e68689b94&info=æ¢æœä¼Ÿæ˜¯è°ï¼Ÿ";
+		String url=Config.urlString+"?"+"key=b24230c7a31a7b9b7e80822e68689b94&info=Áº³¯Î°ÊÇË­£¿";
 		GetDataListener listener=new  GetDataListener() {
 			@Override
 			public String getData(String data) {
-				Log.i("Result", "ç»“æœæ˜¯"+data);
+				Log.i("Result", "½á¹ûÊÇ"+data);
 				return data;
 			}
 		};

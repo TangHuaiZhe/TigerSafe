@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 /**
- * Jsonç»“æœè§£æç±»
+ * Json½á¹û½âÎöÀà
  */
 public class JsonParser {
 
@@ -17,11 +17,11 @@ public class JsonParser {
 
 			JSONArray words = joResult.getJSONArray("ws");
 			for (int i = 0; i < words.length(); i++) {
-				// è½¬å†™ç»“æœè¯ï¼Œé»˜è®¤ä½¿ç”¨ç¬¬ä¸€ä¸ªç»“æœ
+				// ×ªĞ´½á¹û´Ê£¬Ä¬ÈÏÊ¹ÓÃµÚÒ»¸ö½á¹û
 				JSONArray items = words.getJSONObject(i).getJSONArray("cw");
 				JSONObject obj = items.getJSONObject(0);
 				ret.append(obj.getString("w"));
-//				å¦‚æœéœ€è¦å¤šå€™é€‰ç»“æœï¼Œè§£ææ•°ç»„å…¶ä»–å­—æ®µ
+//				Èç¹ûĞèÒª¶àºòÑ¡½á¹û£¬½âÎöÊı×éÆäËû×Ö¶Î
 //				for(int j = 0; j < items.length(); j++)
 //				{
 //					JSONObject obj = items.getJSONObject(j);
@@ -48,17 +48,17 @@ public class JsonParser {
 					JSONObject obj = items.getJSONObject(j);
 					if(obj.getString("w").contains("nomatch"))
 					{
-						ret.append("æ²¡æœ‰åŒ¹é…ç»“æœ.");
+						ret.append("Ã»ÓĞÆ¥Åä½á¹û.");
 						return ret.toString();
 					}
-					ret.append("ã€ç»“æœã€‘" + obj.getString("w"));
-					ret.append("ã€ç½®ä¿¡åº¦ã€‘" + obj.getInt("sc"));
+					ret.append("¡¾½á¹û¡¿" + obj.getString("w"));
+					ret.append("¡¾ÖÃĞÅ¶È¡¿" + obj.getInt("sc"));
 					ret.append("\n");
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			ret.append("æ²¡æœ‰åŒ¹é…ç»“æœ.");
+			ret.append("Ã»ÓĞÆ¥Åä½á¹û.");
 		} 
 		return ret.toString();
 	}

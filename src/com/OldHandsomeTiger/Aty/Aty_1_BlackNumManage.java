@@ -1,12 +1,19 @@
 ﻿package com.OldHandsomeTiger.Aty;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.entity.ContentProducer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.ContextMenu;
@@ -25,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.OldHandsomeTiger.db.dao.DAO_blackNum;
+import com.OldHandsomeTiger.domain.Call;
 import com.OldHandsomeTiger.tigersafe.R;
 
 public class Aty_1_BlackNumManage extends Activity {
@@ -46,39 +54,104 @@ public class Aty_1_BlackNumManage extends Activity {
 		bt_add_black_number.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
+//				AlertDialog.Builder builder = new Builder(Aty_1_BlackNumManage.this);
+//				builder.setTitle("添加黑名单号码");
+//				final EditText et = new EditText(Aty_1_BlackNumManage.this);
+//				et.setInputType(InputType.TYPE_CLASS_PHONE);
+//				builder.setView(et);
+//				builder.setPositiveButton("添加", new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int which) {
+//						String number =  et.getText().toString().trim();
+//						if(TextUtils.isEmpty(number)){
+//							Toast.makeText(getApplicationContext(), "黑名单号码不能为空", 1).show();
+//							return ;
+//						}else{
+//							dao.add(number);
+//							//todo: 通知listview更新数据
+//							// 缺点: 重新刷新整个listview 
+////							numbers = dao.getAllNumbers();
+////							lv_call_sms_safe.setAdapter(new ArrayAdapter<String>(CallSmsActivity.this, R.layout.blacknumber_item, R.id.tv_blacknumber_item, numbers));
+//							numbers = dao.findAll();
+//							
+//							// 让数据适配器通知listview更新数据 
+//							adapter.notifyDataSetChanged();
+//						
+//						}
+//						
+//					}
+//				});
+//				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//					
+//					public void onClick(DialogInterface dialog, int which) {
+//						
+//					}
+//				});
+//				builder.create().show();
 				AlertDialog.Builder builder = new Builder(Aty_1_BlackNumManage.this);
-				builder.setTitle("添加黑名单号码");
-				final EditText et = new EditText(Aty_1_BlackNumManage.this);
-				et.setInputType(InputType.TYPE_CLASS_PHONE);
-				builder.setView(et);
-				builder.setPositiveButton("添加", new DialogInterface.OnClickListener() {
+				builder.setTitle("如何选取黑名单号码？");
+				CharSequence[] items = {"通话记录","联系人","手动输入"};
+				android.content.DialogInterface.OnClickListener listener=new android.content.DialogInterface.OnClickListener() {
+					
+
+					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						String number =  et.getText().toString().trim();
-						if(TextUtils.isEmpty(number)){
-							Toast.makeText(getApplicationContext(), "黑名单号码不能为空", 1).show();
-							return ;
-						}else{
-							dao.add(number);
-							//todo: 通知listview更新数据
-							// 缺点: 重新刷新整个listview 
-//							numbers = dao.getAllNumbers();
-//							lv_call_sms_safe.setAdapter(new ArrayAdapter<String>(CallSmsActivity.this, R.layout.blacknumber_item, R.id.tv_blacknumber_item, numbers));
-							numbers = dao.findAll();
+						// TODO 自动生成的方法存根
+						Toast.makeText(Aty_1_BlackNumManage.this, "ok!", Toast.LENGTH_LONG).show();
+						switch (which) {
+						case 0://通话记录
+//							Intent intent=new Intent(Intent.ACTION_CALL_BUTTON);
+//							startActivity(intent);
+							ReadCallLog();
 							
-							// 让数据适配器通知listview更新数据 
-							adapter.notifyDataSetChanged();
-						
+							
+							break;
+
+						default:
+							break;
 						}
 						
-					}
-				});
-				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					
-					public void onClick(DialogInterface dialog, int which) {
 						
 					}
-				});
+
+					private void ReadCallLog() {
+						// TODO 自动生成的方法存根
+						ContentResolver cr=Aty_1_BlackNumManage.this.getContentResolver();
+						String number=null;
+						String name=null;
+						int type=0;
+						Call callLog=new Call();
+						ArrayList<Call> callLogList=new ArrayList<>();
+						
+						final Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, new String[] {
+								CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME,
+								CallLog.Calls.TYPE, CallLog.Calls.DATE }, null, null,
+								CallLog.Calls.DEFAULT_SORT_ORDER);
+
+							while(cursor.moveToNext()){
+								if(cursor.getString(0)!=null){
+									callLog.setNumber(cursor.getString(0));
+								}
+								if(cursor.getString(1)!=null){
+									callLog.setName(cursor.getString(1));
+								}
+								    callLog.setType(cursor.getInt(2));
+								    callLogList.add(callLog);
+								}
+
+							for (Call callog : callLogList) {
+								System.out.println("the name is "+callLog.getName());
+								System.out.println("the number is"+callLog.getNumber());
+								System.out.println("the type is "+callLog.getType());
+							}
+						
+						
+						
+					}
+				};
+				builder.setItems(items, listener);
 				builder.create().show();
+				
+				
 			}
 		});
 		numbers = dao.findAll();
