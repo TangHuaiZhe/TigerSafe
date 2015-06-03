@@ -2,6 +2,7 @@ package com.OldHandsomeTiger.Aty;
 
 import java.util.ArrayList;
 
+import com.OldHandsomeTiger.db.dao.DAO_blackNum;
 import com.OldHandsomeTiger.domain.Call;
 import com.OldHandsomeTiger.tigersafe.R;
 import com.OldHandsomeTiger.tigersafe.R.id;
@@ -34,6 +35,8 @@ public class Aty_CallLog extends Activity {
 	private ListView callLogListView;
 	private static String TAG="Aty_CallLog";
 	private ArrayList<Call> callLogList;
+	private DAO_blackNum dao;
+	private Call callLog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,7 @@ public class Aty_CallLog extends Activity {
 		CallLogAdapter callLogAdapter = new CallLogAdapter(callLogList);
 		callLogListView.setAdapter(callLogAdapter);
 		
-		
+		dao = new DAO_blackNum(this);
 		callLogListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -54,7 +57,7 @@ public class Aty_CallLog extends Activity {
 					int position, long id) {
 				AlertDialog.Builder builder = new Builder(Aty_CallLog.this);
 				builder.setTitle("确认添加到黑名单中？");
-				Call callLog=callLogList.get(position);
+				callLog=callLogList.get(position);
 				String message="姓名:  "+callLog.getName()+"\n"+"号码:  "+callLog.getNumber();
 				builder.setMessage(message);
 				
@@ -64,7 +67,8 @@ public class Aty_CallLog extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// 号码插入数据库
-						
+						dao.add(callLog.getNumber());
+						finish();
 					}
 				});
 				
@@ -164,7 +168,7 @@ public class Aty_CallLog extends Activity {
 		final Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, new String[] {
 				CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME,
 				CallLog.Calls.TYPE, CallLog.Calls.DATE }, null, null,
-				CallLog.Calls.DEFAULT_SORT_ORDER + " LIMIT 10");
+				CallLog.Calls.DEFAULT_SORT_ORDER + " LIMIT 20");
 
 		while (cursor.moveToNext()) {
 			Call callLog = new Call();// 循环内new，否则导致list内所有对象都是最后一个修改的对象……

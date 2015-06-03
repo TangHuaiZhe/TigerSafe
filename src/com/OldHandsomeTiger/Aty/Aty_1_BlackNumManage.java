@@ -1,22 +1,18 @@
 ﻿package com.OldHandsomeTiger.Aty;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.http.entity.ContentProducer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CallLog;
+import android.provider.ContactsContract;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -25,7 +21,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.OldHandsomeTiger.db.dao.DAO_blackNum;
-import com.OldHandsomeTiger.domain.Call;
 import com.OldHandsomeTiger.tigersafe.R;
 
 public class Aty_1_BlackNumManage extends Activity {
@@ -68,11 +62,17 @@ public class Aty_1_BlackNumManage extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						switch (which) {
 						case 0:// 通话记录
-							Intent intent = new Intent(
+							Intent intent1 = new Intent(
 									Aty_1_BlackNumManage.this,
 									Aty_CallLog.class);
-							startActivityForResult(intent, 1);
+							startActivityForResult(intent1, 0);
 							break;
+							
+							
+						case 1://联系人获取
+							   Intent intent2 = new Intent(Intent.ACTION_PICK,  
+				                        ContactsContract.Contacts.CONTENT_URI);  
+				                startActivityForResult(intent2, 1);  
 						default:
 							break;
 						}
@@ -82,6 +82,7 @@ public class Aty_1_BlackNumManage extends Activity {
 				builder.create().show();
 			}
 		});
+		//to do  handler机制读取
 		numbers = dao.findAll();
 		adapter = new CallSmsAdapter();
 		lv_call_sms_safe.setAdapter(adapter);
@@ -91,7 +92,22 @@ public class Aty_1_BlackNumManage extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO 自动生成的方法存根
 		super.onActivityResult(requestCode, resultCode, data);
-		Toast.makeText(this, "会掉了", Toast.LENGTH_LONG).show();
+		if(requestCode==0){
+			numbers = dao.findAll();
+			adapter.notifyDataSetChanged();
+			Toast.makeText(this, "会掉了00000", Toast.LENGTH_LONG).show();
+		}else if (requestCode==1) {
+//			  Uri contactData = data.getData();  
+//              Cursor cursor =getContentResolver().query(contactData, new String[ContactsC.], selection, selectionArgs, sortOrder)
+//              cursor.moveToFirst();  
+//              String num = this.getContactPhone(cursor);  
+			Toast.makeText(this, "会掉了11111", Toast.LENGTH_LONG).show();
+//              show.setText("所选手机号为：" + num);  
+		}else {
+			
+		}
+//		Toast.makeText(this, "会掉了", Toast.LENGTH_LONG).show();
+		
 	}
 
 	/**
