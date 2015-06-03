@@ -29,7 +29,7 @@ public class ContactInfo_Service {
 	 * @return List<ContactInfo> 
 	 */
 	public List<ContactInfo> getContacts(){
-		List<ContactInfo> contactInfos = new ArrayList<ContactInfo>();
+		List<ContactInfo> contactInfos = new ArrayList<>();
 		ContentResolver cr = context.getContentResolver();
 		//查询raw_contacts表得到联系人的_id
 		Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");

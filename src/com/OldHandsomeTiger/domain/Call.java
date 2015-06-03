@@ -3,7 +3,6 @@ package com.OldHandsomeTiger.domain;
 public class Call {
 
 	public Call() {
-		// TODO 自动生成的构造函数存根
 		this.number="";
 		this.name="";
 		this.type=0;

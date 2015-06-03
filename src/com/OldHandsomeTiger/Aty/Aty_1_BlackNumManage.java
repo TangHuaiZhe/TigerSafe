@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.provider.CallLog;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +43,8 @@ public class Aty_1_BlackNumManage extends Activity {
 	private DAO_blackNum dao;
 	private List<String> numbers;
 	private CallSmsAdapter adapter;
+	private static String TAG = "Aty_1_BlackNumManage";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,163 +53,87 @@ public class Aty_1_BlackNumManage extends Activity {
 		lv_call_sms_safe = (ListView) this.findViewById(R.id.lv_call_sms_safe);
 		// 给listview注册上下文菜单
 		registerForContextMenu(lv_call_sms_safe);
-		bt_add_black_number = (Button) this.findViewById(R.id.bt_add_black_number);
-		
-		bt_add_black_number.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-//				AlertDialog.Builder builder = new Builder(Aty_1_BlackNumManage.this);
-//				builder.setTitle("添加黑名单号码");
-//				final EditText et = new EditText(Aty_1_BlackNumManage.this);
-//				et.setInputType(InputType.TYPE_CLASS_PHONE);
-//				builder.setView(et);
-//				builder.setPositiveButton("添加", new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int which) {
-//						String number =  et.getText().toString().trim();
-//						if(TextUtils.isEmpty(number)){
-//							Toast.makeText(getApplicationContext(), "黑名单号码不能为空", 1).show();
-//							return ;
-//						}else{
-//							dao.add(number);
-//							//todo: 通知listview更新数据
-//							// 缺点: 重新刷新整个listview 
-////							numbers = dao.getAllNumbers();
-////							lv_call_sms_safe.setAdapter(new ArrayAdapter<String>(CallSmsActivity.this, R.layout.blacknumber_item, R.id.tv_blacknumber_item, numbers));
-//							numbers = dao.findAll();
-//							
-//							// 让数据适配器通知listview更新数据 
-//							adapter.notifyDataSetChanged();
-//						
-//						}
-//						
-//					}
-//				});
-//				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//					
-//					public void onClick(DialogInterface dialog, int which) {
-//						
-//					}
-//				});
-//				builder.create().show();
-				AlertDialog.Builder builder = new Builder(Aty_1_BlackNumManage.this);
-				builder.setTitle("如何选取黑名单号码？");
-				CharSequence[] items = {"通话记录","联系人","手动输入"};
-				android.content.DialogInterface.OnClickListener listener=new android.content.DialogInterface.OnClickListener() {
-					
+		bt_add_black_number = (Button) this
+				.findViewById(R.id.bt_add_black_number);
 
+		bt_add_black_number.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				AlertDialog.Builder builder = new Builder(
+						Aty_1_BlackNumManage.this);
+				builder.setTitle("如何选取黑名单号码？");
+				CharSequence[] items = { "通话记录", "联系人", "手动输入" };
+				android.content.DialogInterface.OnClickListener listener = new android.content.DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO 自动生成的方法存根
-						Toast.makeText(Aty_1_BlackNumManage.this, "ok!", Toast.LENGTH_LONG).show();
 						switch (which) {
-						case 0://通话记录
-//							Intent intent=new Intent(Intent.ACTION_CALL_BUTTON);
-//							startActivity(intent);
-							ReadCallLog();
-							
-							
+						case 0:// 通话记录
+							Intent intent = new Intent(
+									Aty_1_BlackNumManage.this,
+									Aty_CallLog.class);
+							startActivityForResult(intent, 1);
 							break;
-
 						default:
 							break;
 						}
-						
-						
-					}
-
-					private void ReadCallLog() {
-						// TODO 自动生成的方法存根
-						ContentResolver cr=Aty_1_BlackNumManage.this.getContentResolver();
-						String number=null;
-						String name=null;
-						int type=0;
-						Call callLog=new Call();
-						ArrayList<Call> callLogList=new ArrayList<>();
-						
-						final Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, new String[] {
-								CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME,
-								CallLog.Calls.TYPE, CallLog.Calls.DATE }, null, null,
-								CallLog.Calls.DEFAULT_SORT_ORDER);
-
-							while(cursor.moveToNext()){
-								if(cursor.getString(0)!=null){
-									callLog.setNumber(cursor.getString(0));
-								}
-								if(cursor.getString(1)!=null){
-									callLog.setName(cursor.getString(1));
-								}
-								    callLog.setType(cursor.getInt(2));
-								    callLogList.add(callLog);
-								}
-
-							for (Call callog : callLogList) {
-								System.out.println("the name is "+callLog.getName());
-								System.out.println("the number is"+callLog.getNumber());
-								System.out.println("the type is "+callLog.getType());
-							}
-						
-						
-						
 					}
 				};
 				builder.setItems(items, listener);
 				builder.create().show();
-				
-				
 			}
 		});
 		numbers = dao.findAll();
-		//adapter = new ArrayAdapter<String>(this, R.layout.blacknumber_item, R.id.tv_blacknumber_item, numbers);
 		adapter = new CallSmsAdapter();
-		
 		lv_call_sms_safe.setAdapter(adapter);
-	
-	
-	
 	}
 	
-	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO 自动生成的方法存根
+		super.onActivityResult(requestCode, resultCode, data);
+		Toast.makeText(this, "会掉了", Toast.LENGTH_LONG).show();
+	}
+
 	/**
 	 * ListView的上下文菜单注册之后在这里被定义
 	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
-	                                ContextMenuInfo menuInfo) {
-	  super.onCreateContextMenu(menu, v, menuInfo);
-	  MenuInflater inflater = getMenuInflater();
-	  inflater.inflate(R.menu.context_menu, menu);
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
 	}
-	
-/**
- * ListView上下文菜单的点击事件
- */
+
+	/**
+	 * ListView上下文菜单的点击事件
+	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-	  int id = (int) info.id;
-	  String number = numbers.get(id);
-	  switch (item.getItemId()) {
-	  case R.id.update_number:
-		  
-		  updataNumber(number);
-		  break;
-	  case R.id.delete_number:
-		  // 当前条目的id
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		int id = (int) info.id;
+		String number = numbers.get(id);
+		switch (item.getItemId()) {
+		case R.id.update_number:
+			updataNumber(number);
+			break;
+		case R.id.delete_number:
+			// 当前条目的id
+			dao.delete(number);
+			// 重新获取黑名单号码
+			numbers = dao.findAll();
+			// 通知listview更新界面
+			adapter.notifyDataSetChanged();
+			break;
 
-		  dao.delete(number);
-		  // 重新获取黑名单号码
-		  numbers = dao.findAll();
-		  //  通知listview更新界面
-		  adapter.notifyDataSetChanged();
-		  break;
-
-	  }
-	return false;
+		}
+		return false;
 	}
-	
-	
+
 	/**
 	 * 更新黑名单号码
+	 * 
 	 * @param number
 	 */
 	private void updataNumber(final String oldnumber) {
@@ -216,39 +144,40 @@ public class Aty_1_BlackNumManage extends Activity {
 		builder.setView(et);
 		builder.setPositiveButton("更改", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				String newNumber =  et.getText().toString().trim();
-				if(TextUtils.isEmpty(newNumber)){
-					Toast.makeText(getApplicationContext(), "黑名单号码不能为空", 1).show();
-					return ;
-				}else{
+				String newNumber = et.getText().toString().trim();
+				if (TextUtils.isEmpty(newNumber)) {
+					Toast.makeText(getApplicationContext(), "黑名单号码不能为空", 1)
+							.show();
+					return;
+				} else {
 					dao.update(oldnumber, newNumber);
-					//todo: 通知listview更新数据
-					// 缺点: 重新刷新整个listview 
-//					numbers = dao.getAllNumbers();
-//					lv_call_sms_safe.setAdapter(new ArrayAdapter<String>(CallSmsActivity.this, R.layout.blacknumber_item, R.id.tv_blacknumber_item, numbers));
+					// todo: 通知listview更新数据
+					// 缺点: 重新刷新整个listview
+					// numbers = dao.getAllNumbers();
+					// lv_call_sms_safe.setAdapter(new
+					// ArrayAdapter<String>(CallSmsActivity.this,
+					// R.layout.blacknumber_item, R.id.tv_blacknumber_item,
+					// numbers));
 					numbers = dao.findAll();
-					
-					// 让数据适配器通知listview更新数据 
+					// 让数据适配器通知listview更新数据
 					adapter.notifyDataSetChanged();
-				
+
 				}
-				
+
 			}
 		});
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			
+
 			public void onClick(DialogInterface dialog, int which) {
 				
 			}
 		});
 		builder.create().show();
-		
+
 	}
 
-
-
-	//不用arrayAdapter的原因是：	adapter.notifyDataSetChanged();对arrayadapter适配器无效。
-	private class CallSmsAdapter extends BaseAdapter{
+	// 不用arrayAdapter的原因是： adapter.notifyDataSetChanged();对arrayadapter适配器无效。
+	private class CallSmsAdapter extends BaseAdapter {
 
 		public int getCount() {
 			// TODO Auto-generated method stub
@@ -266,11 +195,14 @@ public class Aty_1_BlackNumManage extends Activity {
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = View.inflate(Aty_1_BlackNumManage.this, R.layout.blacknumber_item, null);
-			TextView tv = (TextView) view.findViewById(R.id.tv_blacknumber_item);
-			tv.setText(numbers.get(position));
+			View view = View.inflate(Aty_1_BlackNumManage.this,
+					R.layout.blacknumber_item, null);
+			TextView number = (TextView) view
+					.findViewById(R.id.tv_blacknumber_item);
+			number.setText(numbers.get(position));
 			return view;
 		}
-		
+
 	}
+
 }
