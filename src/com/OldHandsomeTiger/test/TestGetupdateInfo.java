@@ -6,6 +6,7 @@ import android.test.AndroidTestCase;
 
 import com.OldHandsomeTiger.db.DB_blackNum;
 import com.OldHandsomeTiger.db.dao.DAO_blackNum;
+import com.OldHandsomeTiger.domain.ContactInfo;
 import com.OldHandsomeTiger.domain.SmsInfo;
 import com.OldHandsomeTiger.engine.SmsInfo_Service;
 
@@ -16,20 +17,20 @@ public class TestGetupdateInfo extends AndroidTestCase {
 		long number = 1301782402;
 		for (int i = 0; i < 100; i++) {
 			number = number + i;
-			dao_blackNum.add(number + "");
+			dao_blackNum.add(number + "","tanghuaizhe"+i);
 			System.out.println(number);
 		}
 	}
 
 	public void testFinadAll() {
 		DAO_blackNum dao_blackNum = new DAO_blackNum(getContext());
-		List<String> numbers = dao_blackNum.findAll();
+		List<ContactInfo> contactsList = dao_blackNum.findAll();
 		// System.out.println(numbers.size());
 		// assertEquals(100, numbers.size());
 
-		for (String number : numbers) {
+		for (ContactInfo ContactInfo : contactsList) {
 
-			System.out.println(number);
+			System.out.println(ContactInfo.getNumber());
 
 		}
 
@@ -59,6 +60,9 @@ public class TestGetupdateInfo extends AndroidTestCase {
 		
 		
 	}
+	
+
+	
 	
 	
 

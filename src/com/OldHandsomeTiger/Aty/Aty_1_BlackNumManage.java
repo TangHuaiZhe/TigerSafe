@@ -1,10 +1,12 @@
 ﻿package com.OldHandsomeTiger.Aty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -29,13 +32,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.OldHandsomeTiger.db.dao.DAO_blackNum;
+import com.OldHandsomeTiger.domain.ContactInfo;
 import com.OldHandsomeTiger.tigersafe.R;
 
 public class Aty_1_BlackNumManage extends Activity {
 	private ListView lv_call_sms_safe;
 	private Button bt_add_black_number;
 	private DAO_blackNum dao;
-	private List<String> numbers;
+	private List<ContactInfo> contactsList;
 	private CallSmsAdapter adapter;
 	private static String TAG = "Aty_1_BlackNumManage";
 
@@ -44,6 +48,7 @@ public class Aty_1_BlackNumManage extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.call_sms_safe);
 		dao = new DAO_blackNum(this);
+		contactsList = new ArrayList<ContactInfo>();
 		lv_call_sms_safe = (ListView) this.findViewById(R.id.lv_call_sms_safe);
 		// 给listview注册上下文菜单
 		registerForContextMenu(lv_call_sms_safe);
@@ -67,12 +72,53 @@ public class Aty_1_BlackNumManage extends Activity {
 									Aty_CallLog.class);
 							startActivityForResult(intent1, 0);
 							break;
+
+						case 1:// 联系人获取
+							Intent intent2 = new Intent(Intent.ACTION_PICK,
+									ContactsContract.Contacts.CONTENT_URI);
+							startActivityForResult(intent2, 1);
+							break;
 							
+						case 2://手动输入
+							AlertDialog.Builder builder = new Builder(
+									Aty_1_BlackNumManage.this);
+							builder.setTitle("输入黑名单电话");
+									
 							
-						case 1://联系人获取
-							   Intent intent2 = new Intent(Intent.ACTION_PICK,  
-				                        ContactsContract.Contacts.CONTENT_URI);  
-				                startActivityForResult(intent2, 1);  
+							View view =View.inflate(Aty_1_BlackNumManage.this, R.layout.blacknum_input, null);
+							
+							final EditText nameEtv =(EditText) view.findViewById(R.id.name);
+							final EditText numberEtv =(EditText) view.findViewById(R.id.number);
+							
+							builder.setView(view);
+							builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+								
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									// TODO 自动生成的方法存根
+									String name =nameEtv.getText().toString();
+									String number =numberEtv.getText().toString();
+									number.trim();
+									if(name==null||name.equals("")){
+										return;
+									}
+									dao.add(number, name);
+									contactsList = dao.findAll();
+									adapter.notifyDataSetChanged();
+									
+								}
+							});
+							
+							builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+								
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									// TODO 自动生成的方法存根
+								}
+							});
+							
+							builder.create().show();
+							break;
 						default:
 							break;
 						}
@@ -82,32 +128,85 @@ public class Aty_1_BlackNumManage extends Activity {
 				builder.create().show();
 			}
 		});
-		//to do  handler机制读取
-		numbers = dao.findAll();
+		// to do handler机制读取
+		contactsList = dao.findAll();
 		adapter = new CallSmsAdapter();
 		lv_call_sms_safe.setAdapter(adapter);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO 自动生成的方法存根
 		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode==0){
-			numbers = dao.findAll();
+		if (data == null) {
+			return;
+		}
+		if (requestCode == 0) {// 通话记录
+			contactsList = dao.findAll();
 			adapter.notifyDataSetChanged();
-			Toast.makeText(this, "会掉了00000", Toast.LENGTH_LONG).show();
-		}else if (requestCode==1) {
-//			  Uri contactData = data.getData();  
-//              Cursor cursor =getContentResolver().query(contactData, new String[ContactsC.], selection, selectionArgs, sortOrder)
-//              cursor.moveToFirst();  
-//              String num = this.getContactPhone(cursor);  
-			Toast.makeText(this, "会掉了11111", Toast.LENGTH_LONG).show();
-//              show.setText("所选手机号为：" + num);  
-		}else {
+		} else if (requestCode == 1) {// pick 联系人
+			List<ContactInfo> pickedContactsList = getContactsInfo(data);
+			for (ContactInfo contactInfo : pickedContactsList) {
+				Log.i(TAG, "the contact is " + contactInfo.toString());
+				dao.add(contactInfo.getNumber(), contactInfo.getName());
+				contactsList = dao.findAll();
+				adapter.notifyDataSetChanged();
+			}
+		} else {// 手动输入
 			
 		}
-//		Toast.makeText(this, "会掉了", Toast.LENGTH_LONG).show();
-		
+		// Toast.makeText(this, "会掉了", Toast.LENGTH_LONG).show();
+
+	}
+
+	private List<ContactInfo> getContactsInfo(Intent data) {
+		List<ContactInfo> contactsList = new ArrayList<>();
+
+		Uri contactData = data.getData();
+		ContentResolver cr = getContentResolver();
+		Cursor cursor = cr.query(contactData, null, null, null, null);
+		while (cursor.moveToNext()) {
+			ContactInfo contact = new ContactInfo();
+			// 得到联系人名
+			String name = cursor.getString(cursor
+					.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+			contact.setName(name);
+
+			// 取得电话号码
+			String ContactId = cursor.getString(cursor
+					.getColumnIndex(ContactsContract.Contacts._ID));
+			Cursor phone = cr.query(
+					ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+					ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "="
+							+ ContactId, null, null);
+			int i = 0;
+			while (phone.moveToNext()) {
+				if (i >= 1) {
+					ContactInfo newContact = new ContactInfo();
+					int phoneIndex = phone
+							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+					String number = phone.getString(phoneIndex);
+					newContact.setName(name);
+					newContact.setNumber(number);
+					contactsList.add(newContact);
+				} else {
+					int phoneIndex = phone
+							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+					String number = phone.getString(phoneIndex);
+					contact.setName(name);
+					contact.setNumber(number);
+					contactsList.add(contact);
+				}
+				i++;
+
+			}
+			phone.close();
+		}
+		cursor.close();
+		return contactsList;
+		// for(ContactInfo contactInfo:contactsList){
+		// Log.i(TAG, "the contact is "+contactInfo.toString());
+		// }
 	}
 
 	/**
@@ -129,7 +228,7 @@ public class Aty_1_BlackNumManage extends Activity {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int id = (int) info.id;
-		String number = numbers.get(id);
+		String number = contactsList.get(id).getNumber();
 		switch (item.getItemId()) {
 		case R.id.update_number:
 			updataNumber(number);
@@ -138,7 +237,7 @@ public class Aty_1_BlackNumManage extends Activity {
 			// 当前条目的id
 			dao.delete(number);
 			// 重新获取黑名单号码
-			numbers = dao.findAll();
+			contactsList = dao.findAll();
 			// 通知listview更新界面
 			adapter.notifyDataSetChanged();
 			break;
@@ -174,7 +273,7 @@ public class Aty_1_BlackNumManage extends Activity {
 					// ArrayAdapter<String>(CallSmsActivity.this,
 					// R.layout.blacknumber_item, R.id.tv_blacknumber_item,
 					// numbers));
-					numbers = dao.findAll();
+					contactsList = dao.findAll();
 					// 让数据适配器通知listview更新数据
 					adapter.notifyDataSetChanged();
 
@@ -185,7 +284,7 @@ public class Aty_1_BlackNumManage extends Activity {
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
-				
+
 			}
 		});
 		builder.create().show();
@@ -197,12 +296,12 @@ public class Aty_1_BlackNumManage extends Activity {
 
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return numbers.size();
+			return contactsList.size();
 		}
 
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			return numbers.get(position);
+			return contactsList.get(position);
 		}
 
 		public long getItemId(int position) {
@@ -211,14 +310,32 @@ public class Aty_1_BlackNumManage extends Activity {
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = View.inflate(Aty_1_BlackNumManage.this,
-					R.layout.blacknumber_item, null);
-			TextView number = (TextView) view
-					.findViewById(R.id.tv_blacknumber_item);
-			number.setText(numbers.get(position));
-			return view;
+
+			ViewHolderForContactInfoList viewHolder = null;
+
+			if (null == convertView) {
+				viewHolder = new ViewHolderForContactInfoList();
+
+				convertView = View.inflate(Aty_1_BlackNumManage.this,
+						R.layout.blacknumber_item, null);
+				viewHolder.name = (TextView) convertView
+						.findViewById(R.id.tv_blacknumber_item_name);
+				viewHolder.number = (TextView) convertView
+						.findViewById(R.id.tv_blacknumber_item_number);
+				convertView.setTag(viewHolder);
+			} else {
+				viewHolder = (ViewHolderForContactInfoList) convertView
+						.getTag();
+			}
+			viewHolder.number.setText(contactsList.get(position).getNumber());
+			viewHolder.name.setText(contactsList.get(position).getName());
+			return convertView;
 		}
 
 	}
 
+	private static class ViewHolderForContactInfoList {
+		TextView name;
+		TextView number;
+	}
 }

@@ -1,9 +1,12 @@
 ﻿package com.OldHandsomeTiger.db.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.OldHandsomeTiger.db.DB_blackNum;
+import com.OldHandsomeTiger.domain.ContactInfo;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -50,15 +53,17 @@ public class DAO_blackNum {
 	 * 
 	 * 
 	 */
-	public void add(String number) {
+	public void add(String number, String name) {
 		if (find(number)) {
-		Log.i(TAG, "已经存在相同号码，无需添加");
+			Log.i(TAG, "已经存在相同号码，无需添加");
 			return;
 		}
 		SQLiteDatabase db = db_blackNum.getWritableDatabase();
 		if (db.isOpen()) {
-			db.execSQL("insert into blackNum (number) values (?)",
-					new Object[] { number });
+			db.execSQL("insert into blackNum (number,name) values (?,?)",
+					new Object[] { number, name });
+
+			// db.execSQL("insert into blackNum (number) values (?)");
 			db.close();
 		}
 	}
@@ -95,23 +100,26 @@ public class DAO_blackNum {
 		}
 	}
 
-	public List<String> findAll() {
+	public List<ContactInfo> findAll() {
 
 		SQLiteDatabase db = db_blackNum.getWritableDatabase();
-		List<String> numbers = new ArrayList<>();
+
+		List<ContactInfo> contactsList = new ArrayList<ContactInfo>();
 		if (db.isOpen()) {
-			Cursor cursor = db.rawQuery("select number from blackNum", null);
-
-			while(cursor.moveToNext()) {
+			Cursor cursor = db.rawQuery("select number,name from blackNum",
+					null);
+			while (cursor.moveToNext()) {
+				ContactInfo contactsInfo = new ContactInfo();
 				String number = cursor.getString(0);
-				System.out.println(number);
-				numbers.add(number);
-
+				String name = cursor.getString(1);
+				contactsInfo.setName(name);
+				contactsInfo.setNumber(number);
+				contactsList.add(contactsInfo);
 			}
-
+			cursor.close();
 			db.close();
 		}
-		return numbers;
+		return contactsList;
 	}
 
 }

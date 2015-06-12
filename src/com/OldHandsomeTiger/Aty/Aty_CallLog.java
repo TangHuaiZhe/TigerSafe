@@ -67,7 +67,7 @@ public class Aty_CallLog extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// 号码插入数据库
-						dao.add(callLog.getNumber());
+						dao.add(callLog.getNumber(),callLog.getName());
 						finish();
 					}
 				});
@@ -114,6 +114,7 @@ public class Aty_CallLog extends Activity {
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
+//			优化性能
 			ViewHolderForCallLogListView viewHolder = null;
 			if (null == convertView) {
 				viewHolder = new ViewHolderForCallLogListView();
@@ -130,26 +131,6 @@ public class Aty_CallLog extends Activity {
 			}
 			viewHolder.name.setText(callLogList.get(position).getName());
 			viewHolder.number.setText(callLogList.get(position).getNumber());
-			// viewHolder的典型用法：
-			// ViewHolder viewHolder = null;
-			// if (null == convertView)
-			// {
-			// viewHolder = new ViewHolder();
-			// LayoutInflater mInflater = LayoutInflater.from(mContext);
-			// convertView = mInflater.inflate(R.layout.item_marker_item, null);
-			//
-			// viewHolder.name = (TextView) convertView.findViewById(R.id.name);
-			// viewHolder.description = (TextView) convertView
-			// .findViewById(R.id.description);
-			// viewHolder.createTime = (TextView) convertView
-			// .findViewById(R.id.createTime);
-			//
-			// convertView.setTag(viewHolder);
-			// }
-			// else
-			// {
-			// viewHolder = (ViewHolder) convertView.getTag();
-			// }
 			return convertView;
 		}
 

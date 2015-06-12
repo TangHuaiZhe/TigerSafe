@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:paddingTop="2dip"
-    android:paddingBottom="2dip"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="horizontal"
+    android:paddingBottom="2dip"
+    android:paddingTop="2dip" >
 
     <TextView
-        android:id="@+id/tv_blacknumber_item"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_blacknumber_item_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="18sp" />
+        android:layout_weight="1"
+        android:textColor="#F8F8FF"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/tv_blacknumber_item_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:textColor="#F8F8FF"
+        android:textSize="22sp" />
 
 </LinearLayout>

@@ -14,7 +14,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  *
  */
 public class DB_blackNum extends SQLiteOpenHelper {
-	final String CREATE_TABLE_SQL="create table blackNum(_id integer primary key autoincrement,number nvarchar(20))";
+	final String CREATE_TABLE_SQL="create table blackNum(_id integer primary key autoincrement," +
+			"number nvarchar(20)," +
+			"name nvarchar(30))";
 
 	
 	/**
@@ -26,7 +28,7 @@ public class DB_blackNum extends SQLiteOpenHelper {
 	 */
 	public DB_blackNum(Context context, String name, CursorFactory factory,
 			int version) {
-		super(context, "blacknumber.db", null, 1);
+		super(context, "blacknumber.db", null, 2);
 	}
 
 
@@ -38,7 +40,7 @@ public class DB_blackNum extends SQLiteOpenHelper {
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		
+//		to do ,升级之后数据的迁移！
 	}
 
 }
